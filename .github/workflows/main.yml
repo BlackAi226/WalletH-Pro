@@ -9,7 +9,7 @@ on:
 jobs:
   build-apk:
     name: Build APK Debug
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # 1️⃣ Checkout le code
