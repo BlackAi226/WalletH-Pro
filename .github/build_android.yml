@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build WallETH APK
 
 on:
   push:
@@ -8,22 +8,22 @@ on:
 
 jobs:
   build-apk:
-    name: Build APK
+    name: Build APK Debug
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout du repo
+      # 1️⃣ Checkout le code
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup JDK (WallETH Android utilise Java 11)
-      - name: Setup JDK
+      # 2️⃣ Installer JDK 11
+      - name: Setup JDK 11
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 11
 
-      # 3️⃣ Setup Android SDK
+      # 3️⃣ Installer Android SDK
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
         with:
@@ -43,11 +43,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      # 5️⃣ Build APK (debug)
+      # 5️⃣ Build APK Debug
       - name: Build APK Debug
         run: ./gradlew assembleDebug
 
-      # 6️⃣ Upload APK comme artifact
+      # 6️⃣ Vérifier que l’APK existe
+      - name: Verify APK
+        run: ls -lh app/build/outputs/apk/debug/
+
+      # 7️⃣ Upload APK comme artifact
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
